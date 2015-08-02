@@ -37,7 +37,7 @@ class Heap(object):
 
     def _max_heapify(self, index):
         """
-        Set self.arr to heapified state. From element with index.
+        Set self.arr to heapified state. From element with index. Time: O(ln(n))
         """
         # check left side
         left = self._left(index)
@@ -54,6 +54,12 @@ class Heap(object):
             self.arr[index], self.arr[largest] = self.arr[largest], self.arr[
                 index]
             self._max_heapify(largest)
+
+    def build_heap(self):
+        """ Build heap in self.arr. Time: O(n)  """
+
+        for ind in reversed(range(math.floor(self.heap_size / 2))):
+            self._max_heapify(ind)
 
 
 import unittest
@@ -73,4 +79,12 @@ class TestHeap(unittest.TestCase):
         heap.set_arr([16, 4, 10, 14, 7, 9, 3, 2, 8, 1])
         expected_arr = [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]
         heap._max_heapify(1)  # heapify with element 4
+        self.assertEqual(heap.arr, expected_arr)
+
+    def test_create_heap(self):
+        """ TestHeap: create max-heap from array. """
+        heap = Heap()
+        heap.set_arr([4, 1, 3, 2, 16, 9, 10, 14, 8, 7])
+        expected_arr = [16, 14, 10, 8, 7, 9, 3, 2, 4, 1]
+        heap.build_heap()  # heapify with element 4
         self.assertEqual(heap.arr, expected_arr)
